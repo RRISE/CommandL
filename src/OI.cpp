@@ -6,6 +6,8 @@
 #include "Commands/TimedIntake.h"
 #include "Commands/TimedShoot.h"
 #include "Commands/ShootLowGoal.h"
+#include "Commands/StartCompressor.h"
+
 OI::OI()
 {
 	// Process operator interface input here.
@@ -15,12 +17,14 @@ OI::OI()
 	button3 = new JoystickButton(stick,3);
 	button4 = new JoystickButton(stick,4);
 	button5 = new JoystickButton(stick,5);
+	button6 = new JoystickButton(stick,6);
 
 	button1->WhenPressed(new TimedShoot());
 	button2->WhenPressed(new TimedIntake());
 	button3->WhenPressed(new ShootLowGoal());
 	button4->WhenPressed(new ExtendSFM());
 	button5->WhenPressed(new RetractSFM());
+	button6->WhenPressed(new StartCompressor());
 }
 
 /* Notes for the XBox controller:

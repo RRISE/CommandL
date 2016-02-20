@@ -1,4 +1,4 @@
-#include "BIOS.h"
+ #include "BIOS.h"
 #include "../RobotMap.h"
 
 BIOS::BIOS() :
@@ -80,13 +80,13 @@ float BIOS::GetKickerSpeed(){
 }
 
 bool BIOS::IsSwitchSet() {
-    return limitSwitch->Get();
+	return limitSwitch->Get();
 	//return counter->Get() > 0;
-    }
+}
 
 void BIOS::InitializeCounter() {
 	counter->Reset();
-    }
+}
 
 void BIOS::InitDefaultCommand()
 {

@@ -10,6 +10,12 @@ DriveTrain::DriveTrain() :
 	pRightFrontMotor = new CANTalon(TALON_RIGHT_FRONT_DRIVE);
 	pRightRearMotor = new CANTalon(TALON_RIGHT_REAR_DRIVE);
 
+	pDipSwitchOne = new DigitalInput(0);
+	pDipSwitchTwo = new DigitalInput(1);
+	pDipSwitchThree = new DigitalInput(2);
+	pDipSwitchFour = new DigitalInput(3);
+
+	pLED1 = new DigitalOutput(14);
 
 	// Assigns the Talons a device to receive feedback from
 	pLeftFrontMotor->SetFeedbackDevice(CANTalon::QuadEncoder);
@@ -24,13 +30,17 @@ DriveTrain::DriveTrain() :
 
 	pLeftFrontUltra = new AnalogInput(ULTRASONIC_LEFTFRONT_ANIPORT);
 
-	pGyro = new AnalogGyro(0);
+	pGyro = new ADXRS450_Gyro();
 
 	// Default sensitivity
-	pGyro->SetSensitivity(0.007);
 	pGyro->Reset();
 
 	pRobot = new RobotDrive(pLeftFrontMotor, pLeftRearMotor, pRightFrontMotor, pRightRearMotor);
+
+	pRobot->SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
+	pRobot->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
+	pRobot->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
+	pRobot->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
 }
 
 void DriveTrain::InitDefaultCommand()
@@ -63,6 +73,10 @@ int DriveTrain::GetRightEncoderValue(){
 	return data * equation;
 }
 
+void DriveTrain::LightLED() {
+	pLED1->Set(1);
+}
+
 double DriveTrain::GetUltraAt(int presetPort){
 	switch(presetPort){
 		case 5:
@@ -77,8 +91,33 @@ double DriveTrain::GetUltraAt(int presetPort){
 	}
 }
 
+bool DriveTrain::GetSwitchPositionOne() {
+	return pDipSwitchOne->Get();
+}
+
+bool DriveTrain::GetSwitchPositionTwo() {
+	return pDipSwitchTwo->Get();
+}
+
+bool DriveTrain::GetSwitchPositionThree() {
+	return pDipSwitchThree->Get();
+}
+
+bool DriveTrain::GetSwitchPositionFour() {
+	return pDipSwitchFour->Get();
+}
+
+void DriveTrain::Turn(float speed, float direction)
+{
+	pRobot->ArcadeDrive(speed, direction);
+}
+
 double DriveTrain::GetGyro(){
 	return pGyro->GetAngle();
+}
+
+void DriveTrain::Calibrate(){
+	pGyro->Calibrate();
 }
 
 void DriveTrain::ResetGyro(){
