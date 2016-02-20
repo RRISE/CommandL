@@ -65,7 +65,7 @@ void BIOS::StopShoot()
 
 void BIOS::LowGoal()
 {
-	pCollectorMotor->Set(0.75);
+	pCollectorMotor->Set(prefs->GetFloat("LowGoalSpeed", 0.75f));
 }
 
 void BIOS::StartTimer()
@@ -104,7 +104,7 @@ float BIOS::GetIntakeSpeed()
 }
 
 float BIOS::GetKickerSpeed(){
-	fKickerSpeed =prefs->GetFloat("KickerSpeed", 1.0f);
+	fKickerSpeed = prefs->GetFloat("KickerSpeed", 1.0f);
 	return fKickerSpeed;
 }
 
