@@ -12,7 +12,7 @@ SFM::SFM() :
 	sfm = new DoubleSolenoid(6, 7);
 
 	sfm->Set(DoubleSolenoid::kOff);
-
+	compressor->Start();
 }
 
 void SFM::InitDefaultCommand()
@@ -20,9 +20,6 @@ void SFM::InitDefaultCommand()
 	SetDefaultCommand(new ExtendSFM());
 }
 
-void SFM::StartCompressor() {
-	compressor->Start();
-}
 
 void SFM::SetForward()
 {

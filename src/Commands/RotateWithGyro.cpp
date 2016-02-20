@@ -12,6 +12,7 @@ RotateWithGyro::RotateWithGyro(double magnitude)
 void RotateWithGyro::Initialize()
 {
 	refPoint = CommandBase::pDriveTrain->GetGyro();
+	SetTimeout(5);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -27,6 +28,10 @@ void RotateWithGyro::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool RotateWithGyro::IsFinished()
 {
+	if(IsTimedOut()){ //time out
+		return true;
+	}
+
 	if (degrees > 0) {
 		if (CommandBase::pDriveTrain->GetGyro() - refPoint < degrees) {
 			return false;

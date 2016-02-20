@@ -15,8 +15,11 @@ private:
 	DigitalOutput* pLED1;
 	AnalogInput* pLeftFrontUltra;
 	ADXRS450_Gyro* pGyro;
+	bool isReversed;
 public:
 	DriveTrain();
+	bool IsReversed();
+	void ReverseDrive(bool reverse);
 	void InitDefaultCommand();
 	void Drive(Joystick* stick);
 	void Turn(float speed, float direction);
@@ -25,7 +28,6 @@ public:
 	void Calibrate();
 	int GetLeftEncoderValue();
 	int GetRightEncoderValue();
-	double GetUltraAt(int presetPort);
 	double GetGyro();
 	bool GetSwitchPositionOne();
 	bool GetSwitchPositionTwo();

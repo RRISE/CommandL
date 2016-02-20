@@ -9,7 +9,7 @@ RetractSFM::RetractSFM()
 // Called just before this Command runs the first time
 void RetractSFM::Initialize()
 {
-
+	SetTimeout(2);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -21,7 +21,12 @@ void RetractSFM::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool RetractSFM::IsFinished()
 {
-	return false;
+	if(IsTimedOut()){ //time out
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 // Called once after isFinished returns true
@@ -34,5 +39,5 @@ void RetractSFM::End()
 // subsystems is scheduled to run
 void RetractSFM::Interrupted()
 {
-
+	End();
 }

@@ -9,7 +9,7 @@ ExtendSFM::ExtendSFM()
 // Called just before this Command runs the first time
 void ExtendSFM::Initialize()
 {
-
+	SetTimeout(2);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -21,7 +21,11 @@ void ExtendSFM::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool ExtendSFM::IsFinished()
 {
-	return false;
+	if(IsTimedOut()){ //time out
+		return true;
+	}else{
+		return false;
+	}
 }
 
 // Called once after isFinished returns true

@@ -3,7 +3,7 @@
 #include "Commands/JoystickDrive.h"
 
 DriveTrain::DriveTrain() :
-		Subsystem("DriveTrain")
+Subsystem("DriveTrain")
 {
 	pLeftFrontMotor = new CANTalon(TALON_LEFT_FRONT_DRIVE);
 	pLeftRearMotor = new CANTalon(TALON_LEFT_REAR_DRIVE);
@@ -28,8 +28,6 @@ DriveTrain::DriveTrain() :
 	pLeftFrontMotor->ConfigEncoderCodesPerRev(2048);
 	pRightFrontMotor->ConfigEncoderCodesPerRev(2048);
 
-	pLeftFrontUltra = new AnalogInput(ULTRASONIC_LEFTFRONT_ANIPORT);
-
 	pGyro = new ADXRS450_Gyro();
 
 	// Default sensitivity
@@ -37,10 +35,23 @@ DriveTrain::DriveTrain() :
 
 	pRobot = new RobotDrive(pLeftFrontMotor, pLeftRearMotor, pRightFrontMotor, pRightRearMotor);
 
+	isReversed = true;
 	pRobot->SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
 	pRobot->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
 	pRobot->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 	pRobot->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
+}
+
+void DriveTrain::ReverseDrive(bool reverse){
+	pRobot->SetInvertedMotor(RobotDrive::kFrontLeftMotor, reverse);
+	pRobot->SetInvertedMotor(RobotDrive::kFrontRightMotor, reverse);
+	pRobot->SetInvertedMotor(RobotDrive::kRearLeftMotor, reverse);
+	pRobot->SetInvertedMotor(RobotDrive::kRearRightMotor, reverse);
+	isReversed = reverse;
+}
+
+bool DriveTrain::IsReversed(){
+	return isReversed;
 }
 
 void DriveTrain::InitDefaultCommand()
@@ -77,19 +88,6 @@ void DriveTrain::LightLED() {
 	pLED1->Set(1);
 }
 
-double DriveTrain::GetUltraAt(int presetPort){
-	switch(presetPort){
-		case 5:
-			return pLeftFrontUltra->GetAverageVoltage() * ULTRASONIC_READING_TO_INCH / ULTRASONIC_SCALEFACTOR;
-			break;
-		case 3:
-			//return leftRearUltra->GetAverageVoltage() * ULTRASONIC_READING_TO_INCH / ULTRASONIC_SCALEFACTOR;
-			return 9999.9;
-			break;
-		default:
-			return 9999.9; //impossible value
-	}
-}
 
 bool DriveTrain::GetSwitchPositionOne() {
 	return pDipSwitchOne->Get();

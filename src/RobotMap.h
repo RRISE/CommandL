@@ -10,6 +10,36 @@
  * floating around.
  */
 
+
+
+
+/**** controllers ****/
+
+//xbox 360 ports
+static const int XBOX_DRIVE_PORT = 0;
+static const int XBOX_MECH_PORT = 1;
+
+//xbox 360 controller buttons
+static int XBOX_BTN_A = 1;
+static int XBOX_BTN_B = 2;
+static int XBOX_BTN_X = 3;
+static int XBOX_BTN_Y = 4;
+static int XBOX_BUMPER_L = 5;
+static int XBOX_BUMPER_R = 6;
+static int XBOX_BTN_BACK = 7;
+static int XBOX_BTN_START = 8;
+
+//Xbox 360 controller joysticks
+static int XBOX_L_XAXIS = 0;
+static int XBOX_L_YAXIS = 1;
+static int XBOX_R_TRIGGER = 2;
+static int XBOX_L_TRIGGER = 3;
+static int XBOX_R_XAXIS = 4;
+static int XBOX_R_YAXIS = 5;
+
+
+
+
 static const int TALON_RIGHT_FRONT_DRIVE = 1;
 static const int TALON_RIGHT_REAR_DRIVE = 2;
 static const int TALON_LEFT_FRONT_DRIVE = 3;
@@ -19,18 +49,16 @@ static const int TALON_LEFT_SHOOTER = 7;
 static const int TALON_COLLECTOR = 5;
 
 
-static const int JOYSTICKPORT = 0;
 
 // sensors
 // Ultrasonic: refer to datasheet: http://maxbotix.com/documents/LV-MaxSonar-EZ_Datasheet.pdf
-const int ULTRASONIC_LEFTFRONT_ANIPORT = 5;
-const int ULTRASONIC_LEFTREAR_ANIPORT = 3;
+const int ULTRASONIC_FRONT_ANIPORT = 4;
 
 /*****************************
-* Formula [Voltage / 1024 = Volts per cm]
-* [measured voltage / volts per cm = distance in cm]
-*
-*****************************/
+ * Formula [Voltage / 1024 = Volts per cm]
+ * [measured voltage / volts per cm = distance in cm]
+ *
+ *****************************/
 const float VCC = 5.0f;
 const float ULTRASONIC_SCALEFACTOR = VCC/1024.0f;
 const float ULTRASONIC_READING_TO_INCH = 1.6f;

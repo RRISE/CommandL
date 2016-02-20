@@ -10,20 +10,20 @@ private:
 
 public:
 	OI();
-	Joystick* stick;
-	JoystickButton* button1;
-	JoystickButton* button2;
-	JoystickButton* button3;
-	JoystickButton* button4;
-	JoystickButton* button5;
-	JoystickButton* button6;
-	JoystickButton* button7;
-	JoystickButton* button8;
-	JoystickButton* button9;
-	JoystickButton* button10;
-	JoystickButton* button11;
-	JoystickButton* button12;
+	Joystick* GetDrive();
+	Joystick* GetMech();
 
+	Joystick* xbox_drive; //drive xbox
+	Joystick* xbox_mech; //mech xbox
+
+	JoystickButton* xbox_drive_right_trigger;
+	JoystickButton* xbox_drive_left_trigger;
+	JoystickButton* xbox_drive_button_A;
+
+	JoystickButton* xbox_mech_button_A;
+	JoystickButton* xbox_mech_button_B;
+	JoystickButton* xbox_mech_button_X;
+	JoystickButton* xbox_mech_button_Y;
 
 };
 

@@ -14,7 +14,7 @@ void JoystickDrive::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void JoystickDrive::Execute()
 {
-	CommandBase::pDriveTrain->Drive(CommandBase::pOI->stick);
+	CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetDrive());
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -33,5 +33,5 @@ void JoystickDrive::End()
 // subsystems is scheduled to run
 void JoystickDrive::Interrupted()
 {
-
+	End();
 }

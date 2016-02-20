@@ -14,7 +14,6 @@ private:
 	void RobotInit()
 	{
 		CommandBase::init();
-		CommandBase::pSFM->StartCompressor();
 		if(CommandBase::pDriveTrain->GetSwitchPositionOne() == true && CommandBase::pDriveTrain->GetSwitchPositionTwo() == false) {
 			pAutonomousCommand = new AutoSequenceOne();
 			CommandBase::pDriveTrain->LightLED();
@@ -70,8 +69,7 @@ private:
 			SmartDashboard::PutBoolean("IsSwitchTwo", CommandBase::pDriveTrain->GetSwitchPositionTwo());
 			SmartDashboard::PutBoolean("IsSwitchThree", CommandBase::pDriveTrain->GetSwitchPositionThree());
 			SmartDashboard::PutBoolean("IsSwitchFour", CommandBase::pDriveTrain->GetSwitchPositionFour());
-			SmartDashboard::PutNumber("Front Ultra", CommandBase::pDriveTrain->GetUltraAt(ULTRASONIC_LEFTFRONT_ANIPORT));
-			SmartDashboard::PutNumber("Rear Ultra", CommandBase::pDriveTrain->GetUltraAt(ULTRASONIC_LEFTREAR_ANIPORT));
+			SmartDashboard::PutNumber("Front Ultra", CommandBase::pBIOS->GetUltraAt(ULTRASONIC_FRONT_ANIPORT));
 			SmartDashboard::PutNumber("Left Encoder Distance (inches)", CommandBase::pDriveTrain->GetLeftEncoderValue());
 			SmartDashboard::PutNumber("Right Encoder Distance (inches)", CommandBase::pDriveTrain->GetRightEncoderValue());
 	}

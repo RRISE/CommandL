@@ -23,7 +23,7 @@ DriveForward::DriveForward(double dist, double maxSpeed) {
 void DriveForward::Initialize() {
 	CommandBase::pDriveTrain->pRightFrontMotor->SetPosition(0);
 	CommandBase::pDriveTrain->pLeftFrontMotor->SetPosition(0);
-	SetTimeout(2);
+	SetTimeout(10);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -39,6 +39,10 @@ void DriveForward::Execute()
 // Make this return true when this Command no longer needs to run execute()
 bool DriveForward::IsFinished()
 {
+	if(IsTimedOut()){ //time out
+		return true;
+	}
+
 	if (CommandBase::pDriveTrain->GetLeftEncoderValue() >= distance) {
 		return true;
 	} else {
