@@ -9,6 +9,7 @@ ReverseDrive::ReverseDrive()
 // Called just before this Command runs the first time
 void ReverseDrive::Initialize()
 {
+	//note: to reverse, JoystickDrive::Drive(Joystick* joy) is also used.
 	if(CommandBase::pDriveTrain->IsReversed()){
 		CommandBase::pDriveTrain->ReverseDrive(false);
 	}else{

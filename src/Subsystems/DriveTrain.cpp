@@ -1,6 +1,6 @@
 #include "DriveTrain.h"
 #include "../RobotMap.h"
-#include "Commands/JoystickDrive.h"
+#include "Commands/ExecuteJoystick.h"
 
 DriveTrain::DriveTrain() :
 Subsystem("DriveTrain")
@@ -40,6 +40,7 @@ Subsystem("DriveTrain")
 	pRobot->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
 	pRobot->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 	pRobot->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
+
 }
 
 void DriveTrain::ReverseDrive(bool reverse){
@@ -56,12 +57,26 @@ bool DriveTrain::IsReversed(){
 
 void DriveTrain::InitDefaultCommand()
 {
-	SetDefaultCommand(new JoystickDrive());
+	SetDefaultCommand(new ExecuteJoystick()); //drive and tracks all triggers and D-Pad
 }
 
 void DriveTrain::Drive(Joystick* stick){
-	pRobot->ArcadeDrive(stick);
+
+	double reverseSign; // 1.0 for not reverse, -1.0 for reverse
+	if(isReversed){
+		reverseSign = 1.0;
+	}else{
+		reverseSign = -1.0; //for some reason, if you don't set motor inverse, joy X is reversed...
+	}
+
+	//copied from 2015 java project
+	double stickX = stick->GetRawAxis(XBOX_L_XAXIS) * reverseSign;
+	double stickY = stick->GetRawAxis(XBOX_L_YAXIS);
+	pRobot->ArcadeDrive(stickY, stickX, false);
 }
+
+
+
 
 void DriveTrain::TankDrive(double leftAxis, double rightAxis)
 {

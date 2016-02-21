@@ -1,5 +1,6 @@
 #include "JoystickDrive.h"
 
+
 JoystickDrive::JoystickDrive()
 {
 	Requires(CommandBase::pDriveTrain);
@@ -16,6 +17,7 @@ void JoystickDrive::Execute()
 {
 	CommandBase::pDriveTrain->Drive(CommandBase::pOI->GetDrive());
 }
+
 
 // Make this return true when this Command no longer needs to run execute()
 bool JoystickDrive::IsFinished()

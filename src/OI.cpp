@@ -14,16 +14,18 @@
 
 OI::OI()
 {
+	//NOTE: all triggers are handled in ExecuteJoystick command
+
 	// Process operator interface input here.
 	xbox_drive = new Joystick(XBOX_DRIVE_PORT);
 	xbox_mech = new Joystick(XBOX_MECH_PORT);
 
-	xbox_drive_right_trigger = new JoystickButton(xbox_drive, XBOX_R_TRIGGER);
-	xbox_drive_left_trigger = new JoystickButton(xbox_drive, XBOX_L_TRIGGER);
+	//xbox_drive_right_trigger = new JoystickButton(xbox_drive, XBOX_R_TRIGGER);
+	//xbox_drive_left_trigger = new JoystickButton(xbox_drive, XBOX_L_TRIGGER);
 	xbox_drive_button_A = new JoystickButton(xbox_drive, XBOX_BTN_A);
 
-	xbox_drive_right_trigger->WhenActive(new RetractSFM());
-	xbox_drive_left_trigger->WhenActive(new ExtendSFM());
+	//xbox_drive_right_trigger->WhenActive(new RetractSFM());
+	//xbox_drive_left_trigger->WhenActive(new ExtendSFM());
 	xbox_drive_button_A->WhenPressed(new ReverseDrive());
 
 	xbox_mech_button_A = new JoystickButton(xbox_mech, XBOX_BTN_A);
@@ -35,7 +37,6 @@ OI::OI()
 	xbox_mech_button_B->WhenPressed(new TimedShoot(6));
 	xbox_mech_button_Y->WhenPressed(new TimedShoot(8));
 	xbox_mech_button_X->WhenPressed(new TimedShoot(10));
-
 
 }
 

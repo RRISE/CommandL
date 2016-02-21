@@ -14,6 +14,7 @@ private:
 public:
 	Compressor* compressor;
 	SFM();
+
 	void InitDefaultCommand();
 	void SetForward();
 	void SetReverse();
