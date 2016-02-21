@@ -4,7 +4,7 @@
 #include "../CommandBase.h"
 #include "WPILib.h"
 
-class JoystickDrive: public CommandGroup
+class JoystickDrive: public CommandBase
 {
 public:
 	JoystickDrive();
