@@ -33,10 +33,21 @@ OI::OI()
 	xbox_mech_button_X = new JoystickButton(xbox_mech, XBOX_BTN_X);
 	xbox_mech_button_Y = new JoystickButton(xbox_mech, XBOX_BTN_Y);
 
+	xbox_mech_button_start = new JoystickButton(xbox_mech, XBOX_BTN_START);
+	xbox_mech_button_back = new JoystickButton(xbox_mech, XBOX_BTN_BACK);
+	xbox_mech_button_start->WhenPressed(new Intake());
+	xbox_mech_button_back->WhenPressed(new ShootLowGoal());
+
+	xbox_drive_button_start = new JoystickButton(xbox_drive, XBOX_BTN_START);
+	xbox_drive_button_back = new JoystickButton(xbox_drive, XBOX_BTN_BACK);
+	xbox_drive_button_start->WhenPressed(new ExtendSFM());
+	xbox_drive_button_back->WhenPressed(new RetractSFM());
+
 	xbox_mech_button_A->WhenPressed(new TimedShoot(4));
 	xbox_mech_button_B->WhenPressed(new TimedShoot(6));
 	xbox_mech_button_Y->WhenPressed(new TimedShoot(8));
 	xbox_mech_button_X->WhenPressed(new TimedShoot(10));
+
 
 }
 

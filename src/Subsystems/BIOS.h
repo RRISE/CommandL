@@ -17,7 +17,7 @@ private:
 	AnalogInput* frontUltra;
 
 	//displacement, speed
-	std::map<double, double> speedMap = {
+	std::map<int, double> speedMap = {
 			{ 4, Preferences::GetInstance()->GetDouble("SpeedAt_4", 1.0f)},
 			{ 6, Preferences::GetInstance()->GetDouble("SpeedAt_6", 1.0f)},
 			{ 8, Preferences::GetInstance()->GetDouble("SpeedAt_8", 1.0f)},
@@ -26,7 +26,7 @@ private:
 
 public:
 	BIOS();
-
+	double GetTempFromPref();
 	float fIntakeSpeed;
 	float fShootSpeed;
 	float fKickerSpeed;

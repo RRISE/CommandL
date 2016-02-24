@@ -17,7 +17,7 @@ Subsystem("BIOS")
 	fKickerSpeed = prefs->GetFloat("KickerSpeed", 0.0f);
 	//fRegressionSpeed = 0.0;
 
-	limitSwitch = new DigitalInput(9);
+	limitSwitch = new DigitalInput(LIMIT_SWITCH_1);
 	counter = new Counter(limitSwitch);
 	frontUltra = new AnalogInput(ULTRASONIC_FRONT_ANIPORT);
 
@@ -117,15 +117,25 @@ void BIOS::InitializeCounter() {
 	counter->Reset();
 }
 
+double BIOS::GetTempFromPref(){
+	return prefs->GetFloat("Temperature", 25.0f); //assume 25 degrees
+}
 
 double BIOS::GetUltraAt(int port){
+	double Vm = 0; //analog voltage from sensor
+	double Tc = GetTempFromPref(); //temperature, human input
+	double Vcc = VCC; //5V supply
+
 	switch(port){
 	case ULTRASONIC_FRONT_ANIPORT:
-		return frontUltra->GetAverageVoltage() * ULTRASONIC_READING_TO_INCH / ULTRASONIC_SCALEFACTOR;
+		Vm = frontUltra->GetAverageVoltage();
 		break;
 	default:
-		return 9999.9; //impossible value
+		Vm = 9999.9; //impossible value
+		break;
 	}
+	//return rawReading * ULTRASONIC_READING_TO_INCH / ULTRASONIC_SCALEFACTOR; //empirical
+	return (Vm/(Vcc/1024) * (58 * pow(10,-6)) * (20.05 * pow((Tc + 273.15), 0.5)/2)); //return value in meteres with temp compensation
 }
 
 

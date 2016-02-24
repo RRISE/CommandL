@@ -3,6 +3,8 @@
 
 #include "Commands/CommandGroup.h"
 #include "WPILib.h"
+#include "RobotMap.h"
+
 
 class ExecuteJoystick: public CommandGroup
 {

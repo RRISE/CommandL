@@ -26,6 +26,12 @@ public:
 	JoystickButton* xbox_mech_button_X;
 	JoystickButton* xbox_mech_button_Y;
 
+	JoystickButton* xbox_mech_button_start;
+	JoystickButton* xbox_mech_button_back;
+	JoystickButton* xbox_drive_button_start;
+	JoystickButton* xbox_drive_button_back;
+
+
 };
 
 #endif

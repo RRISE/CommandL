@@ -16,8 +16,8 @@
 /**** controllers ****/
 
 //xbox 360 ports
-static const int XBOX_DRIVE_PORT = 0;
-static const int XBOX_MECH_PORT = 1;
+const int XBOX_DRIVE_PORT = 0;
+const int XBOX_MECH_PORT = 1;
 
 //xbox 360 controller buttons
 static int XBOX_BTN_A = 1;
@@ -53,7 +53,7 @@ static const int TALON_COLLECTOR = 5;
 // sensors
 // Ultrasonic: refer to datasheet: http://maxbotix.com/documents/LV-MaxSonar-EZ_Datasheet.pdf
 const int ULTRASONIC_FRONT_ANIPORT = 4;
-
+const int LIMIT_SWITCH_1 = 9;
 /*****************************
  * Formula [Voltage / 1024 = Volts per cm]
  * [measured voltage / volts per cm = distance in cm]

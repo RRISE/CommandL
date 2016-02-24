@@ -25,11 +25,13 @@ void TimedShoot::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void TimedShoot::Execute()
 {
+	//default
 	if(displacement != -1){
 		CommandBase::pBIOS->Shoot(CommandBase::pBIOS->GetShootSpeed());
 		if(CommandBase::pBIOS->GetCurrentTime() >= 1.0 ){ //kick
 			CommandBase::pBIOS->Intake(CommandBase::pBIOS->GetIntakeSpeed());
 		}
+		//OI approved
 	}else{
 		CommandBase::pBIOS->Shoot(CommandBase::pBIOS->GetShootSpeed(displacement));
 		if(CommandBase::pBIOS->GetCurrentTime() >= 1.0 ){ //kick

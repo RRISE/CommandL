@@ -1,9 +1,9 @@
 #include "RotateWithGyro.h"
 
-RotateWithGyro::RotateWithGyro(double magnitude)
+RotateWithGyro::RotateWithGyro(double degrees)
 {
 	Requires(CommandBase::pDriveTrain);
-	degrees = magnitude;
+	this->degrees = degrees;
 	refPoint = 0.0;
 
 }
@@ -21,7 +21,7 @@ void RotateWithGyro::Execute()
 	if(degrees > 0) {
 		CommandBase::pDriveTrain->Turn(1.0f, -1.0f); // Adjust
 	} else {
-		CommandBase::pDriveTrain->Turn(1.0f, 1.0f); // Needs adjusting
+		CommandBase::pDriveTrain->Turn(1.0f, 1.0f); // Needs adjusting badly
 	}
 }
 

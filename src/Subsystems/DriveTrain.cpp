@@ -61,7 +61,7 @@ void DriveTrain::InitDefaultCommand()
 }
 
 void DriveTrain::Drive(Joystick* stick){
-
+	double joyThreshold = 0.1;
 	double reverseSign; // 1.0 for not reverse, -1.0 for reverse
 	if(isReversed){
 		reverseSign = 1.0;
@@ -72,7 +72,14 @@ void DriveTrain::Drive(Joystick* stick){
 	//copied from 2015 java project
 	double stickX = stick->GetRawAxis(XBOX_L_XAXIS) * reverseSign;
 	double stickY = stick->GetRawAxis(XBOX_L_YAXIS);
-	pRobot->ArcadeDrive(stickY, stickX, false);
+	SmartDashboard::PutNumber("Joy X", stickX);
+	SmartDashboard::PutNumber("Joy Y", stickY);
+	if(abs(stickX) > joyThreshold|| abs(stickY) > joyThreshold || true){ //debugging
+		pRobot->ArcadeDrive(stickY, stickX, false);
+	}else{
+		pRobot->ArcadeDrive(0, 0, false);
+	}
+
 }
 
 
@@ -122,7 +129,7 @@ bool DriveTrain::GetSwitchPositionFour() {
 
 void DriveTrain::Turn(float speed, float direction)
 {
-	pRobot->ArcadeDrive(speed, direction);
+	pRobot->Drive(speed, direction);
 }
 
 double DriveTrain::GetGyro(){
