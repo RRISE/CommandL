@@ -1,6 +1,6 @@
 #include "DriveTrain.h"
 #include "../RobotMap.h"
-#include "Commands/ExecuteJoystick.h"
+#include "Commands/JoystickDrive.h"
 
 DriveTrain::DriveTrain() :
 Subsystem("DriveTrain")
@@ -57,7 +57,7 @@ bool DriveTrain::IsReversed(){
 
 void DriveTrain::InitDefaultCommand()
 {
-	SetDefaultCommand(new ExecuteJoystick()); //drive and tracks all triggers and D-Pad
+	SetDefaultCommand(new JoystickDrive()); //drive and tracks all triggers and D-Pad
 }
 
 void DriveTrain::Drive(Joystick* stick){
@@ -83,7 +83,54 @@ void DriveTrain::Drive(Joystick* stick){
 }
 
 
+bool DriveTrain::GoForward(double distance, float baseSpeed, double target, double kP){ // THIS IS WORKING!! DO NOT OVERWRITE!!!!!!!!!!!!!!!!!!!!!!!
 
+	SmartDashboard::PutString("Current Task", "automove");
+
+	baseSpeed = -baseSpeed;
+	double currentDistance = GetRightEncoderValue();
+
+	int angleDiff = ((int)(GetGyro() - target)) % 360;
+
+	double error = (((double)abs(abs(angleDiff) - 180)/180.0) * 2 - 1.0) * kP; //1.0 - -1.0 //kP must be =< 1.0
+
+	if(((angleDiff > 0 && angleDiff <= 180) || (angleDiff < -180)) && currentDistance < distance){
+		TankDrive(baseSpeed * error, baseSpeed);
+	}
+	else if(((angleDiff < 0 && angleDiff >= -180) || (angleDiff > 180)) && currentDistance < distance){
+		TankDrive(baseSpeed, baseSpeed * error);
+	}
+	else if(angleDiff == 0  && currentDistance < distance){
+		TankDrive(baseSpeed, baseSpeed);
+	}
+	else{
+		TankDrive(0.0f, 0.0f);
+		return true;
+	}
+	return false;
+
+}
+
+bool DriveTrain::AutoTurn(double target, double kP){ // THIS IS WORKING!! DO NOT OVERWRITE!!!!!!!!!!!!!!!!!!!!!!!
+
+	SmartDashboard::PutString("Current Task", "auto turn");
+
+	int angleDiff = ((int)(GetGyro()-target)) % 360 ; //angle diff
+	double error = (1 - (( (double) abs( abs(angleDiff) - 180 ) / 180.0))) * kP;
+
+	if(((angleDiff > 0 && angleDiff <= 180) || (angleDiff < -180))){
+		TankDrive(((0.5 * error) + 0.5), -(0.5 * error + 0.5));
+	}
+	else if(((angleDiff < 0 && angleDiff >= -180) || (angleDiff > 180))){
+		TankDrive(-(0.5 * error + 0.5), (0.5 * error + 0.5));
+	}
+	else{
+		TankDrive(0.0f, 0.0f);
+		return true;
+	}
+
+	return false;
+}
 
 void DriveTrain::TankDrive(double leftAxis, double rightAxis)
 {

@@ -12,9 +12,9 @@ Subsystem("BIOS")
 	pShooterMotorLeft->SetInverted(true);
 
 	prefs = Preferences::GetInstance();
-	fShootSpeed = prefs->GetFloat("ShootSpeed", 0.0f);
-	fIntakeSpeed = prefs->GetFloat("IntakeSpeed", 0.0f);
-	fKickerSpeed = prefs->GetFloat("KickerSpeed", 0.0f);
+	fShootSpeed = prefs->GetFloat("BIOS_ShootSpeed", 0.0f);
+	fIntakeSpeed = prefs->GetFloat("BIOS_IntakeSpeed", 0.0f);
+	fKickerSpeed = prefs->GetFloat("BIOS_KickerSpeed", 0.0f);
 	//fRegressionSpeed = 0.0;
 
 	limitSwitch = new DigitalInput(LIMIT_SWITCH_1);
@@ -65,7 +65,7 @@ void BIOS::StopShoot()
 
 void BIOS::LowGoal()
 {
-	pCollectorMotor->Set(prefs->GetFloat("LowGoalSpeed", 0.75f));
+	pCollectorMotor->Set(prefs->GetFloat("BIOS_LowGoalSpeed", 0.75f));
 }
 
 void BIOS::StartTimer()
@@ -87,24 +87,33 @@ void BIOS::StopTimer()
 
 float BIOS::GetShootSpeed()
 {
-	fShootSpeed = prefs->GetFloat("ShootSpeed", 0.6f);
+	fShootSpeed = prefs->GetFloat("BIOS_ShootSpeed", 0.6f);
 	return fShootSpeed;
 }
 
 float BIOS::GetShootSpeed(double displacement)
 {
+	//displacement, speed
+	//not global so that you don't have to reload code everytime
+	std::map<int, double> speedMap = {
+			{ 4, Preferences::GetInstance()->GetDouble("BIOS_SpeedAt_4", 1.0f)},
+			{ 6, Preferences::GetInstance()->GetDouble("BIOS_SpeedAt_6", 1.0f)},
+			{ 8, Preferences::GetInstance()->GetDouble("BIOS_SpeedAt_8", 1.0f)},
+			{ 10, Preferences::GetInstance()->GetDouble("BIOS_SpeedAt_10", 1.0f)}
+	};
+
 	fShootSpeed = speedMap[displacement];
 	return fShootSpeed;
 }
 
 float BIOS::GetIntakeSpeed()
 {
-	fIntakeSpeed = prefs->GetFloat("IntakeSpeed", 0.5f);
+	fIntakeSpeed = prefs->GetFloat("BIOS_IntakeSpeed", 0.5f);
 	return fIntakeSpeed;
 }
 
 float BIOS::GetKickerSpeed(){
-	fKickerSpeed = prefs->GetFloat("KickerSpeed", 1.0f);
+	fKickerSpeed = prefs->GetFloat("BIOS_KickerSpeed", 1.0f);
 	return fKickerSpeed;
 }
 
@@ -118,7 +127,7 @@ void BIOS::InitializeCounter() {
 }
 
 double BIOS::GetTempFromPref(){
-	return prefs->GetFloat("Temperature", 25.0f); //assume 25 degrees
+	return prefs->GetFloat("Ultra_Temperature", 20.0f); //assume 25 degrees
 }
 
 double BIOS::GetUltraAt(int port){

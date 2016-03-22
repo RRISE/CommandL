@@ -10,10 +10,18 @@ class Robot: public IterativeRobot
 {
 private:
 	Command* pAutonomousCommand;
+	SendableChooser autoChooser;
 
 	void RobotInit()
 	{
 		CommandBase::init();
+
+		// instantiate the command used for the autonomous period
+		autoChooser.AddDefault("Spy Bot Position", new AutoSequenceOne());
+		autoChooser.AddObject("Low Bar Position", new AutoSequenceTwo());
+		SmartDashboard::PutData("Auto Mode", &autoChooser);
+
+
 		if(CommandBase::pDriveTrain->GetSwitchPositionOne() == true && CommandBase::pDriveTrain->GetSwitchPositionTwo() == false) {
 			pAutonomousCommand = new AutoSequenceOne();
 			CommandBase::pDriveTrain->LightLED();
@@ -23,9 +31,8 @@ private:
 			pAutonomousCommand = new AutoSequenceTwo();
 		}
 		Log();
-		//SmartDashboard::PutNumber("Auto Mode", pChooser);
 	}
-	
+
 	void DisabledPeriodic()
 	{
 		Scheduler::GetInstance()->Run();
@@ -33,6 +40,8 @@ private:
 
 	void AutonomousInit()
 	{
+
+		pAutonomousCommand = (Command *)autoChooser.GetSelected();
 		//CommandBase::pDriveTrain->ResetGyro();
 		if (pAutonomousCommand != NULL)
 			pAutonomousCommand->Start();
@@ -64,14 +73,12 @@ private:
 
 	void Log()
 	{
-			SmartDashboard::PutNumber("Gyro", CommandBase::pDriveTrain->GetGyro());
-			SmartDashboard::PutBoolean("IsSwitchOne", CommandBase::pDriveTrain->GetSwitchPositionOne());
-			SmartDashboard::PutBoolean("IsSwitchTwo", CommandBase::pDriveTrain->GetSwitchPositionTwo());
-			SmartDashboard::PutBoolean("IsSwitchThree", CommandBase::pDriveTrain->GetSwitchPositionThree());
-			SmartDashboard::PutBoolean("IsSwitchFour", CommandBase::pDriveTrain->GetSwitchPositionFour());
-			SmartDashboard::PutNumber("Front Ultra", CommandBase::pBIOS->GetUltraAt(ULTRASONIC_FRONT_ANIPORT));
-			SmartDashboard::PutNumber("Left Encoder Distance (inches)", CommandBase::pDriveTrain->GetLeftEncoderValue());
-			SmartDashboard::PutNumber("Right Encoder Distance (inches)", CommandBase::pDriveTrain->GetRightEncoderValue());
+		SmartDashboard::PutNumber("Gyro", CommandBase::pDriveTrain->GetGyro());
+		SmartDashboard::PutNumber("Front Ultra", CommandBase::pBIOS->GetUltraAt(ULTRASONIC_FRONT_ANIPORT));
+		SmartDashboard::PutNumber("Encoder Distance", CommandBase::pDriveTrain->GetRightEncoderValue());
+		CameraServer::GetInstance()->SetQuality(50);
+		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
+
 	}
 };
 

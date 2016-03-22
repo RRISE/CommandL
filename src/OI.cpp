@@ -33,15 +33,15 @@ OI::OI()
 	xbox_mech_button_X = new JoystickButton(xbox_mech, XBOX_BTN_X);
 	xbox_mech_button_Y = new JoystickButton(xbox_mech, XBOX_BTN_Y);
 
-	xbox_mech_button_start = new JoystickButton(xbox_mech, XBOX_BTN_START);
-	xbox_mech_button_back = new JoystickButton(xbox_mech, XBOX_BTN_BACK);
-	xbox_mech_button_start->WhenPressed(new Intake());
-	xbox_mech_button_back->WhenPressed(new ShootLowGoal());
+	xbox_mech_POV_up = new XBoxPOV(xbox_mech, XBOX_POV_UP);
+	xbox_mech_POV_down = new XBoxPOV(xbox_mech, XBOX_POV_DOWN);
+	xbox_mech_POV_up->WhenActive(new ShootLowGoal());
+	xbox_mech_POV_down->WhenActive(new Intake());
 
-	xbox_drive_button_start = new JoystickButton(xbox_drive, XBOX_BTN_START);
-	xbox_drive_button_back = new JoystickButton(xbox_drive, XBOX_BTN_BACK);
-	xbox_drive_button_start->WhenPressed(new ExtendSFM());
-	xbox_drive_button_back->WhenPressed(new RetractSFM());
+	xbox_drive_trigger_L = new XBoxTrigger(xbox_drive, XBOX_L_TRIGGER);
+	xbox_drive_trigger_R = new XBoxTrigger(xbox_drive, XBOX_R_TRIGGER);
+	xbox_drive_trigger_R->WhenActive(new ExtendSFM());
+	xbox_drive_trigger_L->WhenActive(new RetractSFM());
 
 	xbox_mech_button_A->WhenPressed(new TimedShoot(4));
 	xbox_mech_button_B->WhenPressed(new TimedShoot(6));

@@ -37,7 +37,11 @@ static int XBOX_L_TRIGGER = 3;
 static int XBOX_R_XAXIS = 4;
 static int XBOX_R_YAXIS = 5;
 
-
+//Xbox 360 controller POV
+static int XBOX_POV_UP = 0;
+static int XBOX_POV_DOWN = 180;
+static int XBOX_POV_LEFT = 270;
+static int XBOX_POV_RIGHT = 90;
 
 
 static const int TALON_RIGHT_FRONT_DRIVE = 1;

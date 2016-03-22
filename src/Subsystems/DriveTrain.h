@@ -22,6 +22,8 @@ public:
 	void ReverseDrive(bool reverse);
 	void InitDefaultCommand();
 	void Drive(Joystick* stick);
+	bool AutoTurn(double target, double kP);
+	bool GoForward(double distance, float baseSpeed, double target, double kP);
 	void Turn(float speed, float direction);
 	void TankDrive(double leftAxis, double rightAxis);
 	void LightLED();

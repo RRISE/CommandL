@@ -15,7 +15,7 @@ void RumbleInRange::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void RumbleInRange::Execute()
 {
-	CommandBase::pBIOS->RumbleWhenRange(Preferences::GetInstance()->GetDouble("Target", 61.0), Preferences::GetInstance()->GetDouble("Variance", 10.0));
+	CommandBase::pBIOS->RumbleWhenRange(Preferences::GetInstance()->GetDouble("Ultra_Rumble_Target", 61.0), Preferences::GetInstance()->GetDouble("Ultra_Rumble_Variance", 10.0));
 }
 
 // Make this return true when this Command no longer needs to run execute()

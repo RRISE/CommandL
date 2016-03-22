@@ -16,13 +16,7 @@ private:
 	Counter* counter;
 	AnalogInput* frontUltra;
 
-	//displacement, speed
-	std::map<int, double> speedMap = {
-			{ 4, Preferences::GetInstance()->GetDouble("SpeedAt_4", 1.0f)},
-			{ 6, Preferences::GetInstance()->GetDouble("SpeedAt_6", 1.0f)},
-			{ 8, Preferences::GetInstance()->GetDouble("SpeedAt_8", 1.0f)},
-			{ 10, Preferences::GetInstance()->GetDouble("SpeedAt_10", 1.0f)}
-	};
+
 
 public:
 	BIOS();
