@@ -2,6 +2,8 @@
 #include "Commands/Turn.h"
 #include "Commands/AutoMove.h"
 #include "Commands/TimedShoot.h"
+#include "Commands/ExtendSFM.h"
+
 
 
 
@@ -10,6 +12,8 @@
  */
 AutoSequenceOne::AutoSequenceOne()
 {
+	SmartDashboard::PutString("Auto", "AutoSequenceOne");
+
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());
@@ -22,7 +26,7 @@ AutoSequenceOne::AutoSequenceOne()
 	double kP_Straight = Preferences::GetInstance()->GetDouble("Auto_Straight__kP", 1.0f);
 	double kP_Turn = Preferences::GetInstance()->GetDouble("Auto_Turn__kP", 1.3f);
 
-	AddSequential(new TimedShoot());
+	AddSequential(new TimedShoot(101));
 	AddSequential(new Turn(0, kP_Turn)); //turn to 0 ////////////////// kP should NEVER below 1.0 it prevents overshooting
 	AddSequential(new AutoMove(0.6, distance1, 0, kP_Straight)); //turn to 0
 	//AddSequential(new Turn(180, kP_Turn)); //turn to 0

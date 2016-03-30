@@ -10,6 +10,8 @@
 #include "Commands/RetractSFM.h"
 #include "Commands/ExtendSFM.h"
 #include "Commands/ReverseDrive.h"
+#include "Commands/RotateWithGyro.h"
+#include "Commands/ToggleCompressor.h"
 #include "RobotMap.h"
 
 OI::OI()
@@ -23,15 +25,19 @@ OI::OI()
 	//xbox_drive_right_trigger = new JoystickButton(xbox_drive, XBOX_R_TRIGGER);
 	//xbox_drive_left_trigger = new JoystickButton(xbox_drive, XBOX_L_TRIGGER);
 	xbox_drive_button_A = new JoystickButton(xbox_drive, XBOX_BTN_A);
+	xbox_drive_button_B = new JoystickButton(xbox_drive, XBOX_BTN_B);
 
 	//xbox_drive_right_trigger->WhenActive(new RetractSFM());
 	//xbox_drive_left_trigger->WhenActive(new ExtendSFM());
 	xbox_drive_button_A->WhenPressed(new ReverseDrive());
+	xbox_drive_button_B->WhenPressed(new RotateWithGyro());
 
 	xbox_mech_button_A = new JoystickButton(xbox_mech, XBOX_BTN_A);
 	xbox_mech_button_B = new JoystickButton(xbox_mech, XBOX_BTN_B);
 	xbox_mech_button_X = new JoystickButton(xbox_mech, XBOX_BTN_X);
 	xbox_mech_button_Y = new JoystickButton(xbox_mech, XBOX_BTN_Y);
+	xbox_mech_button_Start = new JoystickButton(xbox_mech, XBOX_BTN_START);
+	xbox_mech_button_Back = new JoystickButton(xbox_mech, XBOX_BTN_BACK);
 
 	xbox_mech_POV_up = new XBoxPOV(xbox_mech, XBOX_POV_UP);
 	xbox_mech_POV_down = new XBoxPOV(xbox_mech, XBOX_POV_DOWN);
@@ -47,6 +53,8 @@ OI::OI()
 	xbox_mech_button_B->WhenPressed(new TimedShoot(6));
 	xbox_mech_button_Y->WhenPressed(new TimedShoot(8));
 	xbox_mech_button_X->WhenPressed(new TimedShoot(10));
+	xbox_mech_button_Start->WhenPressed(new ToggleCompressor(true));
+	xbox_mech_button_Back->WhenPressed(new ToggleCompressor(false));
 
 
 }

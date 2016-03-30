@@ -20,6 +20,13 @@ void SFM::InitDefaultCommand()
 	SetDefaultCommand(new ExtendSFM());
 }
 
+void SFM::StopCompressor(){
+	compressor->Stop();
+}
+
+void SFM::StartCompressor(){
+	compressor ->Start();
+}
 
 void SFM::SetForward()
 {

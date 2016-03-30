@@ -7,10 +7,9 @@
 class RotateWithGyro: public CommandBase
 {
 private:
-	double refPoint;
-	double degrees;
+	double target;
 public:
-	RotateWithGyro(double magnitude);
+	RotateWithGyro();
 	void Initialize();
 	void Execute();
 	bool IsFinished();

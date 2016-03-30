@@ -38,6 +38,7 @@ void BIOS::Intake(float speed)
 
 void BIOS::Shoot(float speed)
 {
+	SmartDashboard::PutNumber("ShootSpeed", speed);
 	pShooterMotorRight->Set(speed);
 	pShooterMotorLeft->Set(speed);
 }
@@ -99,7 +100,10 @@ float BIOS::GetShootSpeed(double displacement)
 			{ 4, Preferences::GetInstance()->GetDouble("BIOS_SpeedAt_4", 1.0f)},
 			{ 6, Preferences::GetInstance()->GetDouble("BIOS_SpeedAt_6", 1.0f)},
 			{ 8, Preferences::GetInstance()->GetDouble("BIOS_SpeedAt_8", 1.0f)},
-			{ 10, Preferences::GetInstance()->GetDouble("BIOS_SpeedAt_10", 1.0f)}
+			{ 10, Preferences::GetInstance()->GetDouble("BIOS_SpeedAt_10", 1.0f)},
+			{ 101, Preferences::GetInstance()->GetDouble("Auto1_ShootSpeed", 0.9f)},
+			{ 102, Preferences::GetInstance()->GetDouble("Auto2_ShootSpeed", 0.95f)},
+			{ 104, Preferences::GetInstance()->GetDouble("Auto4_ShootSpeed", 0.95f)}
 	};
 
 	fShootSpeed = speedMap[displacement];

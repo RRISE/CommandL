@@ -2,7 +2,8 @@
 #include "Commands/Turn.h"
 #include "Commands/AutoMove.h"
 #include "Commands/TimedShoot.h"
-
+#include "Commands/RetractSFM.h"
+#include "Commands/ExtendSFM.h"
 
 
 /*****
@@ -10,20 +11,29 @@
  */
 AutoSequenceTwo::AutoSequenceTwo()
 {
+	SmartDashboard::PutString("Auto", "AutoSequenceTwo");
+
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());
 	// these will run in order.
 
 	double distance1 = Preferences::GetInstance()->GetDouble("Auto_2_D1", 200.0f);
+	double distance2= Preferences::GetInstance()->GetDouble("Auto_2_D2", 200.0f);
 	SmartDashboard::PutNumber("Auto", distance1);
 	double turn1 = Preferences::GetInstance()->GetDouble("Auto_2_T1", 45.0f);
+	double turn2 = Preferences::GetInstance()->GetDouble("Auto_2_T2", 225.0f);
 	double kP_Straight = Preferences::GetInstance()->GetDouble("Auto_Straight__kP", 1.0f);
 	double kP_Turn = Preferences::GetInstance()->GetDouble("Auto_Turn__kP", 1.3f);
 
-	AddSequential(new AutoMove(0.8, distance1, 0, kP_Straight));
+	AddSequential(new RetractSFM());
+	AddSequential(new AutoMove(0.7, distance1, 0, kP_Straight));
+	AddSequential(new ExtendSFM());
 	AddSequential(new Turn(turn1, kP_Turn)); //turn to 45 ////////////////// kP should NEVER below 1.0 it prevents overshooting
-	AddSequential(new TimedShoot());
+	SmartDashboard::PutNumber("Turn", turn1);
+	AddSequential(new AutoMove(0.8, distance2, turn1, kP_Straight));
+	AddSequential(new Turn(turn2, kP_Turn)); //turn to 45 ////////////////// kP should NEVER below 1.0 it prevents overshooting
+	AddSequential(new TimedShoot(102));
 
 	// To run multiple commands at the same time,
 	// use AddParallel()

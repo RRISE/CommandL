@@ -9,6 +9,7 @@ ExtendSFM::ExtendSFM()
 // Called just before this Command runs the first time
 void ExtendSFM::Initialize()
 {
+	SmartDashboard::PutNumber("SFM", 1);
 	SetTimeout(2);
 }
 

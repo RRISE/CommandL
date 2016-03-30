@@ -18,6 +18,8 @@ public:
 	void InitDefaultCommand();
 	void SetForward();
 	void SetReverse();
+	void StartCompressor();
+	void StopCompressor();
 };
 
 #endif

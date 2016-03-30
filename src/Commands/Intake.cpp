@@ -10,7 +10,7 @@ Intake::Intake()
 void Intake::Initialize()
 {
 	CommandBase::pBIOS->StartTimer();
-	SetTimeout(10);
+	SetTimeout(5);
 }
 
 // Called repeatedly when this Command is scheduled to run

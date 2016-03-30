@@ -119,10 +119,10 @@ bool DriveTrain::AutoTurn(double target, double kP){ // THIS IS WORKING!! DO NOT
 	double error = (1 - (( (double) abs( abs(angleDiff) - 180 ) / 180.0))) * kP;
 
 	if(((angleDiff > 0 && angleDiff <= 180) || (angleDiff < -180))){
-		TankDrive(((0.5 * error) + 0.5), -(0.5 * error + 0.5));
+		TankDrive(((0.1 * error) + 0.9), -(0.1 * error + 0.9));
 	}
 	else if(((angleDiff < 0 && angleDiff >= -180) || (angleDiff > 180))){
-		TankDrive(-(0.5 * error + 0.5), (0.5 * error + 0.5));
+		TankDrive(-(0.1 * error + 0.9), (0.1 * error + 0.9));
 	}
 	else{
 		TankDrive(0.0f, 0.0f);

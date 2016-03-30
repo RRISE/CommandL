@@ -1,28 +1,24 @@
 #include "RotateWithGyro.h"
 
-RotateWithGyro::RotateWithGyro(double degrees)
+RotateWithGyro::RotateWithGyro()
 {
 	Requires(CommandBase::pDriveTrain);
-	this->degrees = degrees;
-	refPoint = 0.0;
+	target = 0.0;
 
 }
 
 // Called just before this Command runs the first time
 void RotateWithGyro::Initialize()
 {
-	refPoint = CommandBase::pDriveTrain->GetGyro();
+	target = (int)(CommandBase::pDriveTrain->GetGyro() + 180)%360;
 	SetTimeout(5);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void RotateWithGyro::Execute()
 {
-	if(degrees > 0) {
-		CommandBase::pDriveTrain->Turn(1.0f, -1.0f); // Adjust
-	} else {
-		CommandBase::pDriveTrain->Turn(1.0f, 1.0f); // Needs adjusting badly
-	}
+
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -32,17 +28,26 @@ bool RotateWithGyro::IsFinished()
 		return true;
 	}
 
-	if (degrees > 0) {
-		if (CommandBase::pDriveTrain->GetGyro() - refPoint < degrees) {
-			return false;
-		}
-		return true;
-	} else {
-		if(refPoint - CommandBase::pDriveTrain->GetGyro() < abs(degrees)) {
-			return false;
-		}
+
+	SmartDashboard::PutString("Current Task", "auto turn");
+
+	double kP = 1.3;
+
+	int angleDiff = ((int)(CommandBase::pDriveTrain->GetGyro()-target)) % 360 ; //angle diff
+	double error = (1 - (( (double) abs( abs(angleDiff) - 180 ) / 180.0))) * kP;
+
+	if(((angleDiff > 0 && angleDiff <= 180) || (angleDiff < -180))){
+		CommandBase::pDriveTrain->TankDrive(((0.0 * error) + 1.0), -(0.0 * error + 1.0));
+	}
+	else if(((angleDiff < 0 && angleDiff >= -180) || (angleDiff > 180))){
+		CommandBase::pDriveTrain->TankDrive(-(0.0 * error + 1.0), (0.0 * error + 1.0));
+	}
+	else{
+		CommandBase::pDriveTrain->TankDrive(0.0f, 0.0f);
 		return true;
 	}
+
+	return false;
 }
 
 // Called once after isFinished returns true
