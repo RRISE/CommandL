@@ -24,6 +24,7 @@ public:
 	void Drive(Joystick* stick);
 	bool AutoTurn(double target, double kP);
 	bool GoForward(double distance, float baseSpeed, double target, double kP);
+	bool GoUltraForward(double distance, float baseSpeed, double target, double kP, double source);
 	void Turn(float speed, float direction);
 	void TankDrive(double leftAxis, double rightAxis);
 	void LightLED();

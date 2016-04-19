@@ -1,13 +1,14 @@
-#ifndef TimedIntake_H
-#define TimedIntake_H
+#ifndef ToggleCompressor_H
+#define ToggleCompressor_H
 
 #include "../CommandBase.h"
 #include "WPILib.h"
 
-class Intake: public CommandBase
+class ToggleCompressor: public CommandBase
 {
 public:
-	Intake();
+	bool isStart = isStart;
+	ToggleCompressor(bool isStart);
 	void Initialize();
 	void Execute();
 	bool IsFinished();

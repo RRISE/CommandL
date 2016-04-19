@@ -1,13 +1,13 @@
-#ifndef TimedIntake_H
-#define TimedIntake_H
+#ifndef ResetGyro_H
+#define ResetGyro_H
 
 #include "../CommandBase.h"
 #include "WPILib.h"
 
-class Intake: public CommandBase
+class ResetGyro: public CommandBase
 {
 public:
-	Intake();
+	ResetGyro();
 	void Initialize();
 	void Execute();
 	bool IsFinished();

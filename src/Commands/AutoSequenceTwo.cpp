@@ -4,6 +4,7 @@
 #include "Commands/TimedShoot.h"
 #include "Commands/RetractSFM.h"
 #include "Commands/ExtendSFM.h"
+#include "Commands/ResetGyro.h"
 
 
 /*****
@@ -26,6 +27,7 @@ AutoSequenceTwo::AutoSequenceTwo()
 	double kP_Straight = Preferences::GetInstance()->GetDouble("Auto_Straight__kP", 1.0f);
 	double kP_Turn = Preferences::GetInstance()->GetDouble("Auto_Turn__kP", 1.3f);
 
+	AddSequential(new ResetGyro());
 	AddSequential(new RetractSFM());
 	AddSequential(new AutoMove(0.7, distance1, 0, kP_Straight));
 	AddSequential(new ExtendSFM());

@@ -1,43 +1,39 @@
-#include "ReverseDrive.h"
+#include "Turn.h"
 
-ReverseDrive::ReverseDrive()
+Turn::Turn(double target, double kP)
 {
 	// Use Requires() here to declare subsystem dependencies
 	Requires(CommandBase::pDriveTrain);
+	this->target = target;
+	this->kP = kP;
 }
 
 // Called just before this Command runs the first time
-void ReverseDrive::Initialize()
+void Turn::Initialize()
 {
-	//note: to reverse, JoystickDrive::Drive(Joystick* joy) is also used.
-	if(CommandBase::pDriveTrain->IsReversed()){
-		CommandBase::pDriveTrain->ReverseDrive(false);
-	}else{
-		CommandBase::pDriveTrain->ReverseDrive(true);
-	}
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ReverseDrive::Execute()
+void Turn::Execute()
 {
 
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ReverseDrive::IsFinished()
+bool Turn::IsFinished()
 {
-	return true;
+	return CommandBase::pDriveTrain->AutoTurn(target, kP);
 }
 
 // Called once after isFinished returns true
-void ReverseDrive::End()
+void Turn::End()
 {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ReverseDrive::Interrupted()
+void Turn::Interrupted()
 {
-	End();
+
 }

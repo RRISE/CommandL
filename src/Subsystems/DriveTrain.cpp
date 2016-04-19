@@ -34,7 +34,7 @@ Subsystem("DriveTrain")
 	pGyro->Reset();
 
 	pRobot = new RobotDrive(pLeftFrontMotor, pLeftRearMotor, pRightFrontMotor, pRightRearMotor);
-
+	pRobot->SetSafetyEnabled(false);
 	isReversed = true;
 	pRobot->SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
 	pRobot->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
@@ -83,25 +83,43 @@ void DriveTrain::Drive(Joystick* stick){
 }
 
 
-bool DriveTrain::GoForward(double distance, float baseSpeed, double target, double kP){ // THIS IS WORKING!! DO NOT OVERWRITE!!!!!!!!!!!!!!!!!!!!!!!
 
+
+
+
+bool DriveTrain::GoUltraForward(double distance, float baseSpeed, double target, double kP, double source){ // THIS IS WORKING!! DO NOT OVERWRITE!!!!!!!!!!!!!!!!!!!!!!!
+
+	double absoluteTolerance = 5; //in cms
 	SmartDashboard::PutString("Current Task", "automove");
 
-	baseSpeed = -baseSpeed;
-	double currentDistance = GetRightEncoderValue();
+	double currentDistance = source; //return value in meteres with temp compensation
+
+	double directionSpeed;
+	double goingBack; //i'm confused which way is front, but i'm glad that I'm not the only one
+	if(distance < currentDistance){
+		goingBack = 1;
+		directionSpeed = -baseSpeed;
+	}else{
+		directionSpeed = baseSpeed; //don't ask
+		goingBack = 0;
+	}
+
+	SmartDashboard::PutNumber("abs", abs(currentDistance*10 - distance*10));
+	SmartDashboard::PutNumber("absoluteTolerance", absoluteTolerance);
+
 
 	int angleDiff = ((int)(GetGyro() - target)) % 360;
 
-	double error = (((double)abs(abs(angleDiff) - 180)/180.0) * 2 - 1.0) * kP; //1.0 - -1.0 //kP must be =< 1.0
+	double error = (((double)abs(abs(angleDiff) - goingBack * 180)/180.0) * 2 - 1.0) * kP; //1.0 - -1.0 //kP must be =< 1.0
 
-	if(((angleDiff > 0 && angleDiff <= 180) || (angleDiff < -180)) && currentDistance < distance){
-		TankDrive(baseSpeed * error, baseSpeed);
+	if(((angleDiff > 0 && angleDiff <= 180) || (angleDiff < -180)) && abs(currentDistance*100 - distance*100)>=absoluteTolerance){
+		TankDrive(directionSpeed * error, directionSpeed);
 	}
-	else if(((angleDiff < 0 && angleDiff >= -180) || (angleDiff > 180)) && currentDistance < distance){
-		TankDrive(baseSpeed, baseSpeed * error);
+	else if(((angleDiff < 0 && angleDiff >= -180) || (angleDiff > 180)) && abs(currentDistance*100 - distance*100)>=absoluteTolerance){
+		TankDrive(directionSpeed, directionSpeed * error);
 	}
-	else if(angleDiff == 0  && currentDistance < distance){
-		TankDrive(baseSpeed, baseSpeed);
+	else if(angleDiff == 0  && abs(currentDistance*100 - distance*100)>=absoluteTolerance){
+		TankDrive(directionSpeed, directionSpeed);
 	}
 	else{
 		TankDrive(0.0f, 0.0f);
@@ -110,6 +128,49 @@ bool DriveTrain::GoForward(double distance, float baseSpeed, double target, doub
 	return false;
 
 }
+
+bool DriveTrain::GoForward(double distance, float baseSpeed, double target, double kP){ // THIS IS WORKING!! DO NOT OVERWRITE!!!!!!!!!!!!!!!!!!!!!!!
+
+	double absoluteTolerance = 10;
+	SmartDashboard::PutString("Current Task", "automove");
+	double currentDistance = GetRightEncoderValue();
+
+	double directionSpeed;
+	double goingBack; //i'm confused which way is front, but i'm glad that I'm not the only one
+	if(distance > currentDistance){
+		goingBack = 1;
+		directionSpeed = -baseSpeed;
+	}else{
+		directionSpeed = baseSpeed; //don't ask
+		goingBack = 0;
+	}
+
+	SmartDashboard::PutNumber("EncoderReading", currentDistance);
+	SmartDashboard::PutNumber("Goalz", distance);
+
+
+	int angleDiff = ((int)(GetGyro() - target)) % 360;
+
+	double error = (((double)abs(abs(angleDiff) - goingBack * 180)/180.0) * 2 - 1.0) * kP; //1.0 - -1.0 //kP must be =< 1.0
+
+	if(((angleDiff > 0 && angleDiff <= 180) || (angleDiff < -180)) && abs(currentDistance - distance)>=absoluteTolerance){
+		TankDrive(directionSpeed * error, directionSpeed);
+	}
+	else if(((angleDiff < 0 && angleDiff >= -180) || (angleDiff > 180)) && abs(currentDistance - distance)>=absoluteTolerance){
+		TankDrive(directionSpeed, directionSpeed * error);
+	}
+	else if(angleDiff == 0  && abs(currentDistance - distance)>=absoluteTolerance){
+		TankDrive(directionSpeed, directionSpeed);
+	}
+	else{
+		TankDrive(0.0f, 0.0f);
+		return true;
+	}
+	return false;
+
+}
+
+
 
 bool DriveTrain::AutoTurn(double target, double kP){ // THIS IS WORKING!! DO NOT OVERWRITE!!!!!!!!!!!!!!!!!!!!!!!
 
