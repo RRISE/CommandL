@@ -34,7 +34,7 @@ Subsystem("DriveTrain")
 	pGyro->Reset();
 
 	pRobot = new RobotDrive(pLeftFrontMotor, pLeftRearMotor, pRightFrontMotor, pRightRearMotor);
-
+	pRobot->SetSafetyEnabled(false);
 	isReversed = true;
 	pRobot->SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
 	pRobot->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);

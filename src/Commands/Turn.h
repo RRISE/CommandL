@@ -1,18 +1,20 @@
-#ifndef TimedIntake_H
-#define TimedIntake_H
+#ifndef Turn_H
+#define Turn_H
 
 #include "../CommandBase.h"
 #include "WPILib.h"
 
-class Intake: public CommandBase
+class Turn: public CommandBase
 {
 public:
-	Intake();
+	Turn(double target, double kP);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void End();
 	void Interrupted();
+	double target;
+	double kP;
 };
 
 #endif
